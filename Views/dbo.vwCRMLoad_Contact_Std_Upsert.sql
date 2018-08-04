@@ -1,0 +1,79 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+
+
+
+
+
+
+
+
+
+
+CREATE VIEW [dbo].[vwCRMLoad_Contact_Std_Upsert] AS
+
+SELECT new_ssbcrmsystemacctid
+, new_ssbcrmsystemcontactid
+, p.Prefix
+, p.FirstName
+, p.LastName
+, p.Suffix
+, address1_line1
+, address1_city
+, address1_stateorprovince
+, address1_postalcode
+, address1_country
+, telephone1
+, LoadType
+, emailaddress1
+--, ma.SSUpdatedDate 
+--, CASE WHEN cc.str_clientdrwealertsticketingdate IS NOT NULL THEN 1 ELSE 0 END AS str_clientdrwealerts 
+--, cc.str_clientdrwealertsticketingdate
+--, CASE WHEN cc.str_clientoeionlineclubticketingdate IS NOT NULL THEN 1 ELSE 0 END AS str_client313presents
+--, cc.str_clientoeionlineclubticketingdate
+FROM [dbo].[vwCRMLoad_Contact_Std_Prep] p
+LEFT JOIN dbo.vwCompositeRecord_ModAcctID ma ON p.new_ssbcrmsystemcontactid = ma.SSB_CRMSYSTEM_CONTACT_ID AND ma.SourceSystem = 'tm'
+--LEFT JOIN dbo.Contact_Custom cc ON p.new_ssbcrmsystemcontactid = cc.SSB_CRMSYSTEM_CONTACT_ID
+WHERE LoadType = 'Upsert'
+AND p.new_ssbcrmsystemcontactid NOT IN (
+'3A751100-06C2-404A-A5BF-46BCAB1435FF',
+'3A751100-06C2-404A-A5BF-46BCAB1435FF',
+'2AFCF0C2-B197-41DE-A2DC-8DAD0910C187',
+'84CC8DF8-6C62-41D6-924D-8217379F9DB3',
+'2AFCF0C2-B197-41DE-A2DC-8DAD0910C187',
+'84CC8DF8-6C62-41D6-924D-8217379F9DB3',
+'7AA39F02-8D5F-4D55-B563-39932A16AF32',
+'D3E02FDC-7E38-4423-A786-2296B749F3F6',
+'CF340FA2-580E-4EF6-B8DE-037128A39B08',
+'11DE7CD8-74F2-4FD7-B9B9-59C151554051',
+'3DC8C14F-E4AA-45A3-8CB9-31D719F9CCEF',
+'97AD73B3-DD48-460C-85FC-E34F31F98B9C',
+'D3E02FDC-7E38-4423-A786-2296B749F3F6',
+'538D02D2-B835-4B70-A6F8-0A549028EACE',
+'BD3311B4-7A93-4DA9-93F5-B44D93A4511A',
+'CBEF504C-D0B7-4955-A06E-0D5FA6B1AC0B',
+'FF3DCCA8-64BD-4937-B737-7A9C4113D1BE',
+'33073251-DDC7-45C1-906A-7758AE2E6DDF',
+'6BB76773-685F-47D3-BC5F-DD500AAD66BD',
+'34B386BC-C36A-499D-A156-791E869E8F5B',
+'D239CBD1-5F0A-4F68-B68B-0A2D09E6BFB8',
+'9358BA43-75B8-4745-B556-1E68000314E9',
+'CF340FA2-580E-4EF6-B8DE-037128A39B08'
+
+
+
+)
+
+
+
+
+
+
+
+
+
+
+GO
